@@ -1,19 +1,3 @@
-//////////////////////////////////////////////////////////////////////////////////
-// Author:			Shideh Shahidi, Bilal Zafar, Gandhi Puvvada
-// Create Date:   02/25/08, 10/13/08
-// File Name:		ee354_GCD.v 
-// Description: 
-//
-//
-// Revision: 		2.1
-// Additional Comments:  
-// 10/13/2008 SCEN has been added by Gandhi
-//  3/1/2010  Signal names are changed in line with the divider_verilog design
-//           `define is replaced by localparam construct
-//  02/24/2020 Nexys-3 to Nexys-4 conversion done by Yue (Julien) Niu and reviewed by Gandhi
-//////////////////////////////////////////////////////////////////////////////////
-
-
 module ee354_GCD(Clk, Reset, Start, Ack, Player1, left,right,up,down, q_Init, q_Wait1press, q_Wait1release, q_Wait2press, q_Wait2release, q_Win, q_Draw);
 
 
@@ -40,7 +24,6 @@ module ee354_GCD(Clk, Reset, Start, Ack, Player1, left,right,up,down, q_Init, q_
 	    QWIN1   =        7'b0100000,
 	    QDRAW   =        7'b1000000,
 	
-	// NSL AND SM
 	always @ (posedge Clk, posedge Reset)
 	begin 
 		if(Reset) 
