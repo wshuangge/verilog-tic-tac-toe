@@ -1,4 +1,4 @@
-module ee354_GCD(Clk, Reset, Start, Ack, Player1, left,right,up,down, q_Init, q_Wait1press, q_Wait1release, q_Wait2press, q_Wait2release, q_Win, q_Draw);
+module ee354_GCD(Clk, Reset, Start, Ack, Player1, left, right, up, down, q_Init, q_Wait1press, q_Wait1release, q_Wait2press, q_Wait2release, q_Win, q_Draw);
 
 
 	input Clk, Reset, Start, Ack;
