@@ -34,56 +34,51 @@ module block_controller(
 	    QWIN   =        7'b0100000,
 	    QDRAW   =        7'b1000000,
 	    UNK = 7'bXXXXXXX;
+
+	wire block_fill_1;
+	wire block_fill_2;
+	wire block_fill_3;
+	wire block_fill_4;
+	wire block_fill_5;
+	wire block_fill_6;
+	wire block_fill_7;
+	wire block_fill_8;
+	wire block_fill_9;
+
+
+
+	//these two values dictate the center of the block, incrementing and decrementing them leads the block to move in certain directions
+	reg [9:0] xpos, ypos;
+
 	parameter RED   = 12'b1111_0000_0000;
-	parameter BLUE  = 12'b0000_0000_1111;
-	parameter GREEN = 12'b0000_1111_0000;
-	parameter X = 450;
-	parameter Y = 250;
+	parameter BLACK = 12'b0000_0000_0000;
+	parameter WHITE = 12'b1111_1111_1111;
+	parameter MID_X=463;
+	parameter MID_Y =275;
+
 
 	/*when outputting the rgb value in an always block like this, make sure to include the if(~bright) statement, as this ensures the monitor
 	will output some data to every pixel and not just the images you are trying to display*/
 	always@ (*) begin
-     if(~bright ) //force black if not inside the display area
-        rgb = 12'b0000_0000_0000;
-     else if(grid)
-        rgb=GREEN;
-     else if(block_fill1)
-         rgb=RED;
-     else
-         rgb=12'b0000_0000_0000;
-  /*else if (board_1) 
-    rgb = RED; 
-  else if(board_2)
-      rgb = RED;
-  else if(board_3)
-      rgb =RED;
-  else if(board_4)
-    rgb=RED;*/
-  
- end
-  //the +-5 for the positions give the dimension of the block (i.e. it will be 10x10 pixels)
- //assign block_fill= vCount>=ypos&& hCount>=xpos&& vCount<=(ypos+5) && hCount<=(xpos+5)&&vCount>=ypos&&vCount+200==hCount; 
- //assign first_line = hCount>=100&&hCount<=700&&vCount>=200&&vCount <= 202;
- //assign second_line = hCount>=100&&hCount<=700&&vCount>=600&&vCount <= 602;
- //assign third_line = hCount>=300 &&hCount<=302 && vCount>=100 &&vCount <=800;
- //assign block_fill = hCount>=200&&hCount<=700&&vCount>=480&&vCount <= 485;
- //assign H_U_L=(hCount>=200&&hCount<=680&&vCount>=460&&vCount <= 465);
- //assign V_L_U=(hCount>=360&&hCount<=365&&vCount>=470&&vCount <= 490);
- assign grid = (vCount>=(Y-75) && vCount<=(Y+75) && hCount>=(X-75) && hCount<=(X+75));
- /*
- assign H_U_M=
- assign H_U_R=
- assign H_D_L=
- assign H_D_M=
- assign H_D_R=
- 
- assign V_L_M=
- assign V_L_D=
- assign V_R_U=
- assign V_R_M=
- assign V_R_D=
- */
- 
+		if(~bright ) //force black if not inside the display area
+	rgb = 12'b0000_0000_0000;
+	else if (block_fill_1||block_fill_2||block_fill_3||block_fill_4||block_fill_5||block_fill_6||block_fill_7||block_fill_8||block_fill_9)
+	rgb = RED;
+	else
+	rgb = 12'b0000_0000_0000;
+
+	end
+
+	assign block_fill_1 = (hCount>=(MID_X-25) &&hCount<=(MID_X+25)&&vCount>=(MID_Y-25)&vCount<=(MID_Y+25));
+	assign block_fill_2 = (hCount>=(MID_X-80) &&hCount<=(MID_X-30)&&vCount>=(MID_Y-25)&vCount<=(MID_Y+25));
+	assign block_fill_3 = (hCount>=(MID_X+30) &&hCount<=(MID_X+80)&&vCount>=(MID_Y-25)&vCount<=(MID_Y+25));
+	assign block_fill_4 = (hCount>=(MID_X-25) &&hCount<=(MID_X+25)&&vCount>=(MID_Y+30)&vCount<=(MID_Y+80));
+	assign block_fill_5 = (hCount>=(MID_X-80) &&hCount<=(MID_X-30)&&vCount>=(MID_Y+30)&vCount<=(MID_Y+80));
+	assign block_fill_6 = (hCount>=(MID_X+30) &&hCount<=(MID_X+80)&&vCount>=(MID_Y+30)&vCount<=(MID_Y+80));
+	assign block_fill_7 = (hCount>=(MID_X-25) &&hCount<=(MID_X+25)&&vCount>=(MID_Y-80)&vCount<=(MID_Y-30));
+	assign block_fill_8 = (hCount>=(MID_X-80) &&hCount<=(MID_X-30)&&vCount>=(MID_Y-80)&vCount<=(MID_Y-30));
+	assign block_fill_9 = (hCount>=(MID_X+30) &&hCount<=(MID_X+80)&&vCount>=(MID_Y-80)&vCount<=(MID_Y-30));
+	
  
 
 		//the +-5 for the positions give the dimension of the block (i.e. it will be 10x10 pixels)
