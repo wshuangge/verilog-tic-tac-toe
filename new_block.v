@@ -22,7 +22,7 @@ module block_controller(
 	reg [8:0] sstore;
 	wire WIN1, WIN2, DRAW;
 	reg [6:0] state;
-	assign {q_Init, q_Wait1press, q_Wait1release, q_Wait2press, q_Wait2release, q_Win, q_Draw} = state;
+	assign {q_Draw, q_Win, q_Wait2release, q_Wait2press, q_Wait1release, q_Wait1press, q_Init} = state;
 
 	localparam
 	    QINIT   =        7'b0000001,
