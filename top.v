@@ -88,9 +88,9 @@ module vga_top(
 	assign {q_Init, q_Wait1press, q_Wait1release, q_Wait2press, q_Wait2release, q_Win, q_Draw} = state;
 	//SSDs display 
 	//to show how we can interface our "game" module with the SSD's, we output the 12-bit rgb background value to the SSD's
-	assign SSD3 = 4'b0000;
+	assign SSD3 = 4'b1111;
 	assign SSD2 = background[11:8];
-	assign SSD1 = 1'b0+state[6:4];
+	assign SSD1 = {1'b0, state[6:4]};
 	assign SSD0 = state[3:0];
 
 
