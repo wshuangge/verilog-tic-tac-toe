@@ -98,7 +98,7 @@ module block_controller(
 
 	assign DRAW= ~WIN2 && ~WIN1 && (moves==9);
 
-	always@(posedge clk, posedge rst)
+	always@(*)
 	begin
 		if(rst)
 		begin
