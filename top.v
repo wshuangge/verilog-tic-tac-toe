@@ -48,7 +48,6 @@ module vga_top(
 	wire [3:0] anode;
 	wire [11:0] rgb;
 	wire rst;
-	
 	reg [3:0]	SSD;
 	wire [3:0]	SSD3, SSD2, SSD1, SSD0;
 	reg [7:0]  	SSD_CATHODES;
@@ -84,11 +83,11 @@ module vga_top(
 // SSD (Seven Segment Display)
 	// reg [3:0]	SSD;
 	// wire [3:0]	SSD3, SSD2, SSD1, SSD0;
-	reg [7:0] state;
-	assign {q_Init, q_Wait1press, q_Wait1release, q_Wait2press, q_Wait2release, q_Win, q_Draw} = state;
+	wire [7:0] state;
+	assign {q_Draw, q_Win, q_Wait2release, q_Wait2press, q_Wait1release, q_Wait1press, q_Init} = state;
 	//SSDs display 
 	//to show how we can interface our "game" module with the SSD's, we output the 12-bit rgb background value to the SSD's
-	assign SSD3 = 4'b1111;
+	assign SSD3 = 4'b1110;
 	assign SSD2 = background[11:8];
 	assign SSD1 = {1'b0, state[6:4]};
 	assign SSD0 = state[3:0];

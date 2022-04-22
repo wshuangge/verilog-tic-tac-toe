@@ -9,11 +9,11 @@ module block_controller(
 	input Player1,
 	output reg [11:0] rgb,
 	output reg [11:0] background,
-	q_Init, q_Wait1press, q_Wait1release, q_Wait2press, q_Wait2release, q_Win, q_Draw;
+	output q_Init, q_Wait1press, q_Wait1release, q_Wait2press, q_Wait2release, q_Win, q_Draw
    );
 	wire block_fill;
 	wire H_U_M, H_U_R, H_D_L, H_D_M, H_D_R, V_L_U, V_L_M, V_L_D, V_R_U, V_R_M, V_R_D;
-	output q_Init, q_Wait1press, q_Wait1release, q_Wait2press, q_Wait2release, q_Win, q_Draw;
+	//output q_Init, q_Wait1press, q_Wait1release, q_Wait2press, q_Wait2release, q_Win, q_Draw;
 	
 	//these two values dictate the center of the block, incrementing and decrementing them leads the block to move in certain directions
 	reg [9:0] xpos, ypos;
