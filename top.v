@@ -37,8 +37,7 @@ module vga_top(
 	output An0, An1, An2, An3, An4, An5, An6, An7,
 	output Ca, Cb, Cc, Cd, Ce, Cf, Cg, Dp,
 	
-	output MemOE, MemWR, RamCS, QuadSpiFlashCS,
-	Sw0
+	output MemOE, MemWR, RamCS, QuadSpiFlashCS
 	);
 	wire Reset;
 	assign Reset=BtnC;
