@@ -353,8 +353,8 @@ module block_controller(
 	assign block_fill_9 = (hCount>=(MID_X+55) &&hCount<=(MID_X+155)&&vCount>=(MID_Y-155)&vCount<=(MID_Y-55));
 	
 	//the +-5 for the positions give the dimension of the block (i.e. it will be 10x10 pixels)
-	assign block_move =(vCount>=(ypos-50) && vCount<=(ypos+50) && hCount>=(xpos-50) && hCount<=(xpos+50));
-	//assign block_move =( (vCount-ypos-50)*(vCount-ypos-50)+(hount-ypos-50)*(hCount-ypos-50)<=(2500) );
+	//assign block_move =(vCount>=(ypos-50) && vCount<=(ypos+50) && hCount>=(xpos-50) && hCount<=(xpos+50));
+	assign block_move =((vCount-ypos)*(vCount-ypos)+(hCount-xpos)*(hCount-xpos)<=(2500));
 
 	assign WIN1=fstore[0]*fstore[1]*fstore[2]+fstore[3]*fstore[4]*fstore[5]+fstore[6]*fstore[7]*fstore[8]+
 				fstore[0]*fstore[3]*fstore[6]+fstore[1]*fstore[4]*fstore[7]+fstore[2]*fstore[5]*fstore[8]+
