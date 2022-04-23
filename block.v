@@ -53,21 +53,25 @@ module block_controller(
 	parameter RED   = 12'b1111_0000_0000;
 	parameter BLACK = 12'b0000_0000_0000;
 	parameter WHITE = 12'b1111_1111_1111;
+	parameter RICE =  12'b1110_1110_1100;
+	parameter BG    = 12'b1111_1111_1111;
 	parameter MID_X=463;
 	parameter MID_Y =275;
 
 
 	/*when outputting the rgb value in an always block like this, make sure to include the if(~bright) statement, as this ensures the monitor
 	will output some data to every pixel and not just the images you are trying to display*/
-	always@ (*) begin
-		if(~bright ) //force black if not inside the display area
-	rgb = 12'b0000_0000_0000;
-	else if (block_fill_1||block_fill_2||block_fill_3||block_fill_4||block_fill_5||block_fill_6||block_fill_7||block_fill_8||block_fill_9)
-	rgb = RED;
-	else
-	rgb = 12'b0000_0000_0000;
-
-	end
+	always@ (*)
+		begin
+			if(~bright ) //force black if not inside the display area
+				rgb = 12'b0000_0000_0000;
+			else if (block_fill_1||||block_fill_4||block_fill_5||block_fill_6||block_fill_8||block_fill_9)
+				rgb = RICE;
+			else if (block_fill_2||block_fill_3||block_fill_4||block_fill_7||)
+				rgb = BLACK;
+			else
+				rgb = BG;
+		end
 
 	assign block_fill_1 = (hCount>=(MID_X-25) &&hCount<=(MID_X+25)&&vCount>=(MID_Y-25)&vCount<=(MID_Y+25));
 	assign block_fill_2 = (hCount>=(MID_X-80) &&hCount<=(MID_X-30)&&vCount>=(MID_Y-25)&vCount<=(MID_Y+25));
