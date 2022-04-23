@@ -11,8 +11,7 @@ module block_controller(
 	output reg [11:0] background,
 	output q_Init, q_Wait1press, q_Wait1release, q_Wait2press, q_Wait2release, q_Win, q_Draw
    );
-
-	reg [9:0] xpos, ypos;
+	reg [9:0] MID_X, MID_Y;
 	reg [3:0] pointer;
 	reg [3:0] moves;
 	reg [8:0] fstore;
@@ -39,8 +38,10 @@ module block_controller(
 	parameter RICE       = 12'b1110_1110_1100;
 	parameter BACKGROUND = 12'b1111_1111_1111;
 	parameter GREEN      = 12'b0000_1111_0000;
-	parameter MID_X      = 463;
-	parameter MID_Y      = 275;
+	parameter COFFEE     = 12'b0111_0101_0011;
+	parameter WOOD       = 12'b1101_1010_1000;
+	parameter CENTER_X   = 463;
+	parameter CENTER_Y   = 275;
 
 
 	/*when outputting the rgb value in an always block like this, make sure to include the if(~bright) statement, as this ensures the monitor
@@ -49,13 +50,16 @@ module block_controller(
 		begin
 			if(~bright ) //force black if not inside the display area
 				rgb = BLACK;
-			else if(block_move)
-				rgb = GREEN;
-			else if (block_fill_1||block_fill_5||block_fill_6||block_fill_8||block_fill_9)
-				rgb = RICE;
-			else if (block_fill_2||block_fill_3||block_fill_4||block_fill_7)
+			else if(crosshair)
+				rgb = RED;
+			else if( player1_0 || player1_1 || player1_2 || player1_3 || player1_4 || player1_5 || player1_6 || player1_7 || player1_8 )
 				rgb = BLACK;
-	
+			else if( player2_0 || player2_1 || player2_2 || player2_3 || player2_4 || player2_5 || player2_6 || player2_7 || player2_8 )
+				rgb = BLACK;
+			else if (block_fill_0||block_fill_2||block_fill_4||block_fill_6||block_fill_8)
+				rgb = COFFEE;
+			else if (block_fill_1||block_fill_3||block_fill_5||block_fill_7)
+				rgb = WOOD;
 			else
 				rgb = BACKGROUND;
 		end
@@ -75,8 +79,8 @@ module block_controller(
 								fstore<=9'b000000000;
 								sstore<=9'b000000000;
 								pointer<=4;
-								xpos<=463;
-								ypos<=275;
+								MID_X<=463;
+								MID_Y<=275;
 								moves<=0;
 								if(Player1==1)
 									begin
@@ -103,22 +107,22 @@ module block_controller(
 											if (pointer==2)
 												begin
 													pointer<=0;
-													xpos <= MID_X-105;
+													MID_X <= MID_X-2*105;
 												end
 											else if (pointer==5)
 												begin
 													pointer<=3;
-													xpos <= MID_X-105;
+													MID_X <= MID_X-2*105;
 												end
 											else if (pointer==8)
 												begin
 													pointer<=6;
-													xpos <= MID_X-105;
+													MID_X <= MID_X-2*105;
 												end
 											else
 												begin
 													pointer<=pointer+1;
-													xpos <= xpos + 105;
+													MID_X <= MID_X+105;
 												end
 										end
 									else if(left)
@@ -127,70 +131,70 @@ module block_controller(
 											if (pointer==0)
 												begin
 													pointer<=2;
-													xpos<=MID_X+105;
+													MID_X<=MID_X+2*105;
 												end
 											else if (pointer==3)
 												begin
 													pointer<=5;
-													xpos<=MID_X+105;
+													MID_X<=MID_X+2*105;
 												end
 											else if (pointer==6)
 												begin
 													pointer<=8;
-													xpos<=MID_X+105;
+													MID_X<=MID_X+2*105;
 												end
 											else
 												begin
 													pointer<=pointer-1;
-													xpos<=xpos - 105;
-												end
-										end
-									else if(up)
-										begin
-											state<=QWAIT1PRESS;
-											if (pointer==0)
-												begin
-													pointer<=6;
-													ypos<=MID_Y+105;
-												end
-											else if (pointer==1)
-												begin
-													pointer<=7;
-													ypos<=MID_Y+105;
-												end
-											else if (pointer==2)
-												begin
-													pointer<=8;
-													ypos<=MID_Y+105;
-												end
-											else
-												begin
-													pointer<=pointer-3;
-													ypos<=ypos-105;
+													MID_X<=MID_X - 105;
 												end
 										end
 									else if(down)
 										begin
 											state<=QWAIT1PRESS;
+											if (pointer==0)
+												begin
+													pointer<=6;
+													MID_Y<=MID_Y-2*105;
+												end
+											else if (pointer==1)
+												begin
+													pointer<=7;
+													MID_Y<=MID_Y-2*105;
+												end
+											else if (pointer==2)
+												begin
+													pointer<=8;
+													MID_Y<=MID_Y-2*105;
+												end
+											else
+												begin
+													pointer<=pointer-3;
+													MID_Y<=MID_Y+105;
+												end
+										end
+									else if(up)
+										begin
+											state<=QWAIT1PRESS;
 											if (pointer==6)
 												begin
 													pointer<=0;
-													ypos<=MID_Y-105;
+													MID_Y<=MID_Y+2*105;
 												end
 											else if (pointer==7)
 												begin
 													pointer<=1;
-													ypos<=MID_Y-105;
+													MID_Y<=MID_Y+2*105;
 												end
 											else if (pointer==8)
 												begin
 													pointer<=2;
-													ypos<=MID_Y-105;
+													MID_Y<=MID_Y+2*105;
 												end
 											else
 												begin
 													pointer<=pointer+3;
-													ypos<=ypos+105;
+													MID_Y<=MID_Y-105;
 												end
 										end
 									if(DRAW)
@@ -203,7 +207,7 @@ module block_controller(
 										end
 									else
 										begin
-											if(Player1==0)
+											if(Player1==0 && fstore[pointer]==0 && sstore[pointer]==0)
 											 begin
 												state<=QWAIT2RELEASE;
 												fstore[pointer]<=1;
@@ -217,7 +221,6 @@ module block_controller(
 									begin
 										state<=QWAIT2RELEASE;
 									end
-								
 							end
 							QWAIT2RELEASE:
 								begin
@@ -227,22 +230,22 @@ module block_controller(
 											if (pointer==2)
 												begin
 													pointer<=0;
-													xpos <= MID_X-105;
+													MID_X <= MID_X-2*105;
 												end
 											else if (pointer==5)
 												begin
 													pointer<=3;
-													xpos <= MID_X-105;
+													MID_X <= MID_X-2*105;
 												end
 											else if (pointer==8)
 												begin
 													pointer<=6;
-													xpos <= MID_X-105;
+													MID_X <= MID_X-2*105;
 												end
 											else
 												begin
 													pointer<=pointer+1;
-													xpos <= xpos + 105;
+													MID_X <= MID_X + 105;
 												end
 										end
 									else if(left)
@@ -251,71 +254,70 @@ module block_controller(
 											if (pointer==0)
 												begin
 													pointer<=2;
-													xpos<=MID_X+105;
+													MID_X<=MID_X+2*105;
 												end
 											else if (pointer==3)
 												begin
 													pointer<=5;
-													xpos<=MID_X+105;
+													MID_X<=MID_X+2*105;
 												end
 											else if (pointer==6)
 												begin
 													pointer<=8;
-													xpos<=MID_X+105;
+													MID_X<=MID_X+2*105;
 												end
 											else
 												begin
 													pointer<=pointer-1;
-													xpos<=xpos - 105;
+													MID_X<=MID_X - 105;
 												end
 										end
-									else if(up)
+									else if(down)
 										begin
 											state<=QWAIT2PRESS;
 											if (pointer==0)
 												begin
 													pointer<=6;
-													ypos<=MID_Y+105;
+													MID_Y<=MID_Y-2*105;
 												end
 											else if (pointer==1)
 												begin
 													pointer<=7;
-													ypos<=MID_Y+105;
+													MID_Y<=MID_Y-2*105;
 												end
 											else if (pointer==2)
 												begin
 													pointer<=8;
-													ypos<=MID_Y+105;
+													MID_Y<=MID_Y-2*105;
 												end
 											else
 												begin
 													pointer<=pointer-3;
-													ypos<=ypos-105;
+													MID_Y<=MID_Y+105;
 												end
 										end
-
-									else if(down)
+									else if(up)
 										begin
 											state<=QWAIT2PRESS;
 											if (pointer==6)
 												begin
 													pointer<=0;
-													ypos<=MID_Y-105;
+													MID_Y<=MID_Y+2*105;
 												end
 											else if (pointer==7)
 												begin
 													pointer<=1;
-													ypos<=MID_Y-105;
+													MID_Y<=MID_Y+2*105;
 												end
 											else if (pointer==8)
 												begin
 													pointer<=2;
-													ypos<=MID_Y-105;
+													MID_Y<=MID_Y+2*105;
 												end
 											else
 												begin
 													pointer<=pointer+3;
-													ypos<=ypos+105;
+													MID_Y<=MID_Y-105;
 												end
 										end
 									if(DRAW)
@@ -328,7 +330,7 @@ module block_controller(
 										end
 									else
 										begin
-											if(Player1==1)
+											if(Player1==1 && fstore[pointer]==0 && sstore[pointer]==0)
 												begin
 													state<=QWAIT1RELEASE;
 													sstore[pointer]<=1;
@@ -357,20 +359,49 @@ module block_controller(
 			end
 	   end
 
-	
-	assign block_fill_1 = (hCount>=(MID_X-50) &&hCount<=(MID_X+50)&&vCount>=(MID_Y-50)&vCount<=(MID_Y+50));
-	assign block_fill_2 = (hCount>=(MID_X-155) &&hCount<=(MID_X-55)&&vCount>=(MID_Y-50)&vCount<=(MID_Y+50));
-	assign block_fill_3 = (hCount>=(MID_X+55) &&hCount<=(MID_X+155)&&vCount>=(MID_Y-50)&vCount<=(MID_Y+50));
-	assign block_fill_4 = (hCount>=(MID_X-50) &&hCount<=(MID_X+50)&&vCount>=(MID_Y+55)&vCount<=(MID_Y+155));
-	assign block_fill_5 = (hCount>=(MID_X-155) &&hCount<=(MID_X-55)&&vCount>=(MID_Y+55)&vCount<=(MID_Y+155));
-	assign block_fill_6 = (hCount>=(MID_X+55) &&hCount<=(MID_X+155)&&vCount>=(MID_Y+55)&vCount<=(MID_Y+155));
-	assign block_fill_7 = (hCount>=(MID_X-50) &&hCount<=(MID_X+50)&&vCount>=(MID_Y-155)&vCount<=(MID_Y-55));
-	assign block_fill_8 = (hCount>=(MID_X-155) &&hCount<=(MID_X-55)&&vCount>=(MID_Y-155)&vCount<=(MID_Y-55));
-	assign block_fill_9 = (hCount>=(MID_X+55) &&hCount<=(MID_X+155)&&vCount>=(MID_Y-155)&vCount<=(MID_Y-55));
+	assign block_fill_0 = (hCount>=(CENTER_X-155) && hCount<=(CENTER_X-55)  && vCount>=(CENTER_Y+55)  && vCount<=(CENTER_Y+155));
+	assign block_fill_1 = (hCount>=(CENTER_X-50)  && hCount<=(CENTER_X+50)  && vCount>=(CENTER_Y+55)  && vCount<=(CENTER_Y+155));
+	assign block_fill_2 = (hCount>=(CENTER_X+55)  && hCount<=(CENTER_X+155) && vCount>=(CENTER_Y+55)  && vCount<=(CENTER_Y+155));
+	assign block_fill_3 = (hCount>=(CENTER_X-155) && hCount<=(CENTER_X-55)  && vCount>=(CENTER_Y-50)  && vCount<=(CENTER_Y+50));
+	assign block_fill_4 = (hCount>=(CENTER_X-50)  && hCount<=(CENTER_X+50)  && vCount>=(CENTER_Y-50)  && vCount<=(CENTER_Y+50));
+	assign block_fill_5 = (hCount>=(CENTER_X+55)  && hCount<=(CENTER_X+155) && vCount>=(CENTER_Y-50)  && vCount<=(CENTER_Y+50));
+	assign block_fill_6 = (hCount>=(CENTER_X-155) && hCount<=(CENTER_X-55)  && vCount>=(CENTER_Y-155) && vCount<=(CENTER_Y-55));
+	assign block_fill_7 = (hCount>=(CENTER_X-50)  && hCount<=(CENTER_X+50)  && vCount>=(CENTER_Y-155) && vCount<=(CENTER_Y-55));
+	assign block_fill_8 = (hCount>=(CENTER_X+55)  && hCount<=(CENTER_X+155) && vCount>=(CENTER_Y-155) && vCount<=(CENTER_Y-55));
 	
 	//the +-5 for the positions give the dimension of the block (i.e. it will be 10x10 pixels)
-	//assign block_move =(vCount>=(ypos-50) && vCount<=(ypos+50) && hCount>=(xpos-50) && hCount<=(xpos+50));
-	assign block_move =((vCount-ypos)*(vCount-ypos)+(hCount-xpos)*(hCount-xpos)<=(2500));
+	//assign block_move =(vCount>=(MID_Y-50) && vCount<=(MID_Y+50) && hCount>=(MID_X-50) && hCount<=(MID_X+50));
+	assign crosshair = ((vCount>=(MID_Y-25) && vCount<=(MID_Y+25) && hCount>=(MID_X-5) && hCount<=(MID_X+5))
+					||(vCount>=(MID_Y-5) && vCount<=(MID_Y+5) && hCount>=(MID_X-25) && hCount<=(MID_X-5))
+					||(vCount>=(MID_Y-5) && vCount<=(MID_Y+5) && hCount>=(MID_X+5) && hCount<=(MID_X+25)));
+
+	assign player1_0 =((vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X-105))**2<=(50**2) && (vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X-105))**2>=(40**2) && fstore[0]);				
+	assign player1_1 =((vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X-000))**2<=(50**2) && (vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X-000))**2>=(40**2) && fstore[1]);
+	assign player1_2 =((vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X+105))**2<=(50**2) && (vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X+105))**2>=(40**2) && fstore[2]);				
+	assign player1_3 =((vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X-105))**2<=(50**2) && (vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X-105))**2>=(40**2) && fstore[3]);
+	assign player1_4 =((vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X-000))**2<=(50**2) && (vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X-000))**2>=(40**2) && fstore[4]);				
+	assign player1_5 =((vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X+105))**2<=(50**2) && (vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X+105))**2>=(40**2) && fstore[5]);
+	assign player1_6 =((vCount-(CENTER_Y-105))**2 +(hCount-(CENTER_X-105))**2<=(50**2) && (vCount-(CENTER_Y-105))**2 +(hCount-(CENTER_X-105))**2>=(40**2) && fstore[6]);				
+	assign player1_7 =((vCount-(CENTER_Y-105))**2 +(hCount-(CENTER_X-000))**2<=(50**2) && (vCount-(CENTER_Y-105))**2 +(hCount-(CENTER_X-000))**2>=(40**2) && fstore[7]);
+	assign player1_8 =((vCount-(CENTER_Y-105))**2 +(hCount-(CENTER_X+105))**2<=(50**2) && (vCount-(CENTER_Y-105))**2 +(hCount-(CENTER_X+105))**2>=(40**2) && fstore[8]);	
+
+
+	assign player2_0 =(((hCount-(CENTER_X-105+4))*(-4) + (vCount-(CENTER_Y+105-4))*(+4) >=0 
+					 && (hCount-(CENTER_X-105-4))*(+4) + (vCount-(CENTER_Y+105+4))*(-4) >=0
+					 && (hCount-(CENTER_X-105+30))*(-30) + (vCount-(CENTER_Y+105+30))*(-30) >=0
+					 && (hCount-(CENTER_X-105-30))*(+30) + (vCount-(CENTER_Y+105-30))*(+30) >=0)
+
+				);
+	
+				
+	assign player2_1 =((vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X-000))**2<=(30**2) && (vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X-000))**2>=(20**2) && sstore[1]);
+	assign player2_2 =((vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X+105))**2<=(30**2) && (vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X+105))**2>=(20**2) && sstore[2]);				
+	assign player2_3 =((vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X-105))**2<=(30**2) && (vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X-105))**2>=(20**2) && sstore[3]);
+	assign player2_4 =((vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X-000))**2<=(30**2) && (vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X-000))**2>=(20**2) && sstore[4]);				
+	assign player2_5 =((vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X+105))**2<=(30**2) && (vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X+105))**2>=(20**2) && sstore[5]);
+	assign player2_6 =((vCount-(CENTER_Y-105))**2 +(hCount-(CENTER_X-105))**2<=(30**2) && (vCount-(CENTER_Y-105))**2 +(hCount-(CENTER_X-105))**2>=(20**2) && sstore[6]);				
+	assign player2_7 =((vCount-(CENTER_Y-105))**2 +(hCount-(CENTER_X-000))**2<=(30**2) && (vCount-(CENTER_Y-105))**2 +(hCount-(CENTER_X-000))**2>=(20**2) && sstore[7]);
+	assign player2_8 =((vCount-(CENTER_Y-105))**2 +(hCount-(CENTER_X+105))**2<=(30**2) && (vCount-(CENTER_Y-105))**2 +(hCount-(CENTER_X+105))**2>=(20**2) && sstore[8]);					
 
 	assign WIN1=fstore[0]*fstore[1]*fstore[2]+fstore[3]*fstore[4]*fstore[5]+fstore[6]*fstore[7]*fstore[8]+
 				fstore[0]*fstore[3]*fstore[6]+fstore[1]*fstore[4]*fstore[7]+fstore[2]*fstore[5]*fstore[8]+
