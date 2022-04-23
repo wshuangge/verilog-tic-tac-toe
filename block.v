@@ -56,7 +56,7 @@ module block_controller(
 				rgb = BACKGROUND;
 		end
 
-	always@(posedge clc, negedge rst)
+	always@(posedge clk, negedge rst)
 	begin
 		if(rst)
 			begin
