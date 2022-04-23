@@ -151,22 +151,22 @@ module block_controller(
 											if (pointer==0)
 												begin
 													pointer<=6;
-													ypos<=MID_Y-105;
+													ypos<=MID_Y+105;
 												end
 											else if (pointer==1)
 												begin
 													pointer<=7;
-													ypos<=MID_Y-105;
+													ypos<=MID_Y+105;
 												end
 											else if (pointer==2)
 												begin
 													pointer<=8;
-													ypos<=MID_Y-105;
+													ypos<=MID_Y+105;
 												end
 											else
 												begin
 													pointer<=pointer-3;
-													ypos<=ypos+105;
+													ypos<=ypos-105;
 												end
 										end
 									else if(down)
@@ -175,22 +175,22 @@ module block_controller(
 											if (pointer==6)
 												begin
 													pointer<=0;
-													ypos<=MID_Y+105;
+													ypos<=MID_Y-105;
 												end
 											else if (pointer==7)
 												begin
 													pointer<=1;
-													ypos<=MID_Y+105;
+													ypos<=MID_Y-105;
 												end
 											else if (pointer==8)
 												begin
 													pointer<=2;
-													ypos<=MID_Y+105;
+													ypos<=MID_Y-105;
 												end
 											else
 												begin
 													pointer<=pointer+3;
-													ypos<=ypos-105;
+													ypos<=ypos+105;
 												end
 										end
 									if(DRAW)
