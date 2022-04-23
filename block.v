@@ -65,9 +65,9 @@ module block_controller(
 		begin
 			if(~bright ) //force black if not inside the display area
 				rgb = 12'b0000_0000_0000;
-			else if (block_fill_1||||block_fill_4||block_fill_5||block_fill_6||block_fill_8||block_fill_9)
+			else if (block_fill_1||block_fill_5||block_fill_6||block_fill_8||block_fill_9)
 				rgb = RICE;
-			else if (block_fill_2||block_fill_3||block_fill_4||block_fill_7||)
+			else if (block_fill_2||block_fill_3||block_fill_4||block_fill_7)
 				rgb = BLACK;
 			else
 				rgb = BG;
