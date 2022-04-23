@@ -349,6 +349,8 @@ module block_controller(
 	
 	//the +-5 for the positions give the dimension of the block (i.e. it will be 10x10 pixels)
 	assign block_move =(vCount>=(ypos-50) && vCount<=(ypos+50) && hCount>=(xpos-50) && hCount<=(xpos+50));
+
+	assign block_move = (  );
 	assign WIN1=fstore[0]*fstore[1]*fstore[2]+fstore[3]*fstore[4]*fstore[5]+fstore[6]*fstore[7]*fstore[8]+
 				fstore[0]*fstore[3]*fstore[6]+fstore[1]*fstore[4]*fstore[7]+fstore[2]*fstore[5]*fstore[8]+
 				fstore[0]*fstore[4]*fstore[8]+fstore[2]*fstore[4]*fstore[6];
