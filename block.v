@@ -65,9 +65,6 @@ module block_controller(
 		if(rst)
 			begin
 				state<=QINIT;
-				//rough values for center of screen
-				xpos<=463;
-				ypos<=275;
 			end
 		else
 		 	begin
@@ -77,6 +74,10 @@ module block_controller(
 							begin
 								fstore<=9'b000000000;
 								sstore<=9'b000000000;
+								pointer<=4;
+								xpos<=463;
+								ypos<=275;
+								moves<=0;
 								if(Player1==1)
 									begin
 										state<=QWAIT1RELEASE;
