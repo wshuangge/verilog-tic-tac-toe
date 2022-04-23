@@ -55,7 +55,7 @@ module block_controller(
 			else if( player1_0 || player1_1 || player1_2 || player1_3 || player1_4 || player1_5 || player1_6 || player1_7 || player1_8 )
 				rgb = BLACK;
 			else if( player2_0 || player2_1 || player2_2 || player2_3 || player2_4 || player2_5 || player2_6 || player2_7 || player2_8 )
-				rgb = BLACK;
+				rgb = WHITE;
 			else if (block_fill_0||block_fill_2||block_fill_4||block_fill_6||block_fill_8)
 				rgb = COFFEE;
 			else if (block_fill_1||block_fill_3||block_fill_5||block_fill_7)
@@ -375,24 +375,17 @@ module block_controller(
 					||(vCount>=(MID_Y-5) && vCount<=(MID_Y+5) && hCount>=(MID_X-25) && hCount<=(MID_X-5))
 					||(vCount>=(MID_Y-5) && vCount<=(MID_Y+5) && hCount>=(MID_X+5) && hCount<=(MID_X+25)));
 
-	assign player1_0 =((vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X-105))**2<=(50**2) && (vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X-105))**2>=(40**2) && fstore[0]);				
-	assign player1_1 =((vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X-000))**2<=(50**2) && (vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X-000))**2>=(40**2) && fstore[1]);
-	assign player1_2 =((vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X+105))**2<=(50**2) && (vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X+105))**2>=(40**2) && fstore[2]);				
-	assign player1_3 =((vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X-105))**2<=(50**2) && (vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X-105))**2>=(40**2) && fstore[3]);
-	assign player1_4 =((vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X-000))**2<=(50**2) && (vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X-000))**2>=(40**2) && fstore[4]);				
-	assign player1_5 =((vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X+105))**2<=(50**2) && (vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X+105))**2>=(40**2) && fstore[5]);
-	assign player1_6 =((vCount-(CENTER_Y-105))**2 +(hCount-(CENTER_X-105))**2<=(50**2) && (vCount-(CENTER_Y-105))**2 +(hCount-(CENTER_X-105))**2>=(40**2) && fstore[6]);				
-	assign player1_7 =((vCount-(CENTER_Y-105))**2 +(hCount-(CENTER_X-000))**2<=(50**2) && (vCount-(CENTER_Y-105))**2 +(hCount-(CENTER_X-000))**2>=(40**2) && fstore[7]);
-	assign player1_8 =((vCount-(CENTER_Y-105))**2 +(hCount-(CENTER_X+105))**2<=(50**2) && (vCount-(CENTER_Y-105))**2 +(hCount-(CENTER_X+105))**2>=(40**2) && fstore[8]);	
+	assign player1_0 =((vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X-105))**2<=(40**2) && (vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X-105))**2>=(30**2) && fstore[0]);				
+	assign player1_1 =((vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X-000))**2<=(40**2) && (vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X-000))**2>=(30**2) && fstore[1]);
+	assign player1_2 =((vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X+105))**2<=(40**2) && (vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X+105))**2>=(30**2) && fstore[2]);				
+	assign player1_3 =((vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X-105))**2<=(40**2) && (vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X-105))**2>=(30**2) && fstore[3]);
+	assign player1_4 =((vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X-000))**2<=(40**2) && (vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X-000))**2>=(30**2) && fstore[4]);				
+	assign player1_5 =((vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X+105))**2<=(40**2) && (vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X+105))**2>=(30**2) && fstore[5]);
+	assign player1_6 =((vCount-(CENTER_Y-105))**2 +(hCount-(CENTER_X-105))**2<=(40**2) && (vCount-(CENTER_Y-105))**2 +(hCount-(CENTER_X-105))**2>=(30**2) && fstore[6]);				
+	assign player1_7 =((vCount-(CENTER_Y-105))**2 +(hCount-(CENTER_X-000))**2<=(40**2) && (vCount-(CENTER_Y-105))**2 +(hCount-(CENTER_X-000))**2>=(30**2) && fstore[7]);
+	assign player1_8 =((vCount-(CENTER_Y-105))**2 +(hCount-(CENTER_X+105))**2<=(40**2) && (vCount-(CENTER_Y-105))**2 +(hCount-(CENTER_X+105))**2>=(30**2) && fstore[8]);	
 
-	/*
-	assign player2_0 =(((hCount-(CENTER_X-105+4))*(-4) + (vCount-(CENTER_Y+105-4))*(+4) >=0 
-					 && (hCount-(CENTER_X-105-4))*(+4) + (vCount-(CENTER_Y+105+4))*(-4) >=0
-					 && (hCount-(CENTER_X-105+30))*(-30) + (vCount-(CENTER_Y+105+30))*(-30) >=0
-					 && (hCount-(CENTER_X-105-30))*(+30) + (vCount-(CENTER_Y+105-30))*(+30) >=0)
 
-				);
-	*/
 	
 	assign player2_0 =((vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X-105))**2<=(30**2) && (vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X-105))**2>=(20**2) && fstore[0]);	
 	assign player2_1 =((vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X-000))**2<=(30**2) && (vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X-000))**2>=(20**2) && sstore[1]);
