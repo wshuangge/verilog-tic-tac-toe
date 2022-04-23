@@ -92,7 +92,7 @@ module block_controller(
 								if(right==0 && left==0 && up==0 && down==0)
 									begin
 										state<=QWAIT1RELEASE;
-										moves<=moves+1;
+
 									end
 							end
 							QWAIT1RELEASE:
@@ -207,6 +207,7 @@ module block_controller(
 											 begin
 												state<=QWAIT2RELEASE;
 												fstore[pointer]<=1;
+												moves<=moves+1;
 											 end
 										end
 								end
@@ -215,7 +216,6 @@ module block_controller(
 								if(right==0 && left==0 && up==0 && down==0)
 									begin
 										state<=QWAIT2RELEASE;
-										moves<=moves+1;
 									end
 								
 							end
@@ -316,6 +316,7 @@ module block_controller(
 												begin
 													state<=QWAIT1RELEASE;
 													sstore[pointer]<=1;
+													moves<=moves+1;
 												end
 										end
 								end
@@ -353,8 +354,8 @@ module block_controller(
 	
 	//the +-5 for the positions give the dimension of the block (i.e. it will be 10x10 pixels)
 	assign block_move =(vCount>=(ypos-50) && vCount<=(ypos+50) && hCount>=(xpos-50) && hCount<=(xpos+50));
+	//assign block_move =( (vCount-ypos-50)*(vCount-ypos-50)+(hount-ypos-50)*(hCount-ypos-50)<=(2500) );
 
-	assign block_move = (  );
 	assign WIN1=fstore[0]*fstore[1]*fstore[2]+fstore[3]*fstore[4]*fstore[5]+fstore[6]*fstore[7]*fstore[8]+
 				fstore[0]*fstore[3]*fstore[6]+fstore[1]*fstore[4]*fstore[7]+fstore[2]*fstore[5]*fstore[8]+
 				fstore[0]*fstore[4]*fstore[8]+fstore[2]*fstore[4]*fstore[6];
