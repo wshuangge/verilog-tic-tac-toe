@@ -204,8 +204,10 @@ module block_controller(
 									else
 										begin
 											if(Player1==0)
+											 begin
 												state<=QWAIT2RELEASE;
 												fstore[pointer]<=1;
+											 end
 										end
 								end
 							QWAIT2PRESS:
@@ -311,8 +313,10 @@ module block_controller(
 									else
 										begin
 											if(Player1==1)
-												state<=QWAIT1RELEASE;
-												sstore[pointer]<=1;
+												begin
+													state<=QWAIT1RELEASE;
+													sstore[pointer]<=1;
+												end
 										end
 								end
 							QWIN:
