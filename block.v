@@ -359,6 +359,10 @@ module block_controller(
 			end
 	   end
 
+	assign crosshair = ((vCount>=(MID_Y-40) && vCount<=(MID_Y+40) && hCount>=(MID_X-40) && hCount<=(MID_X+40)) 
+					&& ~(vCount>=(MID_Y-35) && vCount<=(MID_Y+35) && hCount>=(MID_X-35) && hCount<=(MID_X+35)));
+
+
 	assign block_fill_0 = (hCount>=(CENTER_X-155) && hCount<=(CENTER_X-55)  && vCount>=(CENTER_Y+55)  && vCount<=(CENTER_Y+155));
 	assign block_fill_1 = (hCount>=(CENTER_X-50)  && hCount<=(CENTER_X+50)  && vCount>=(CENTER_Y+55)  && vCount<=(CENTER_Y+155));
 	assign block_fill_2 = (hCount>=(CENTER_X+55)  && hCount<=(CENTER_X+155) && vCount>=(CENTER_Y+55)  && vCount<=(CENTER_Y+155));
@@ -368,11 +372,7 @@ module block_controller(
 	assign block_fill_6 = (hCount>=(CENTER_X-155) && hCount<=(CENTER_X-55)  && vCount>=(CENTER_Y-155) && vCount<=(CENTER_Y-55));
 	assign block_fill_7 = (hCount>=(CENTER_X-50)  && hCount<=(CENTER_X+50)  && vCount>=(CENTER_Y-155) && vCount<=(CENTER_Y-55));
 	assign block_fill_8 = (hCount>=(CENTER_X+55)  && hCount<=(CENTER_X+155) && vCount>=(CENTER_Y-155) && vCount<=(CENTER_Y-55));
-	
-	//the +-5 for the positions give the dimension of the block (i.e. it will be 10x10 pixels)
-	//assign block_move =(vCount>=(MID_Y-50) && vCount<=(MID_Y+50) && hCount>=(MID_X-50) && hCount<=(MID_X+50));
-	assign crosshair = ((vCount>=(MID_Y-40) && vCount<=(MID_Y+40) && hCount>=(MID_X-40) && hCount<=(MID_X+40))
-					  && !(vCount>=(MID_Y-35) && vCount<=(MID_Y+35) && hCount>=(MID_X-35) && hCount<=(MID_X-35)));
+
 
 	assign player1_0 =(((vCount>=(CENTER_Y+105-30) && vCount<=(CENTER_Y+105+30) && hCount>=(CENTER_X-105-5) && hCount<=(CENTER_X-105+5))
 					  ||(vCount>=(CENTER_Y+105-5) && vCount<=(CENTER_Y+105+5) && hCount>=(CENTER_X-105-30) && hCount<=(CENTER_X-105-5))
@@ -423,6 +423,4 @@ module block_controller(
 
 	assign DRAW= ~WIN2 && ~WIN1 && (moves==9);
 
-	
-	
 endmodule
