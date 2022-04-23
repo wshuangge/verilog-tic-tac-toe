@@ -31,13 +31,14 @@ module block_controller(
 	    QDRAW         = 7'b1000000,
 	    UNK           = 7'bXXXXXXX;
 
-	wire block_fill_1, block_fill_2, block_fill_3, block_fill_4, block_fill_5, block_fill_6, block_fill_7, block_fill_8, block_fill_9;
+	wire block_fill_1, block_fill_2, block_fill_3, block_fill_4, block_fill_5, block_fill_6, block_fill_7, block_fill_8, block_fill_9,block_move;
 
 	parameter RED        = 12'b1111_0000_0000;
 	parameter BLACK      = 12'b0000_0000_0000;
 	parameter WHITE      = 12'b1111_1111_1111;
 	parameter RICE       = 12'b1110_1110_1100;
 	parameter BACKGROUND = 12'b1111_1111_1111;
+	parameter GREEN      = 12'b0000_1111_0000;
 	parameter MID_X      = 463;
 	parameter MID_Y      = 275;
 
@@ -52,6 +53,8 @@ module block_controller(
 				rgb = RICE;
 			else if (block_fill_2||block_fill_3||block_fill_4||block_fill_7)
 				rgb = BLACK;
+			else if(block_move)
+				rgb = GREEN;
 			else
 				rgb = BACKGROUND;
 		end
@@ -62,8 +65,8 @@ module block_controller(
 			begin
 				state<=QINIT;
 				//rough values for center of screen
-				xpos<=450;
-				ypos<=250;
+				xpos<=463;
+				ypos<=275;
 			end
 		else
 		 	begin
@@ -98,22 +101,22 @@ module block_controller(
 											if (pointer==2)
 												begin
 													pointer<=0;
-													xpos <= 300;
+													xpos <= MID_X-105;
 												end
 											else if (pointer==5)
 												begin
 													pointer<=3;
-													xpos <= 300;
+													xpos <= MID_X-105;
 												end
 											else if (pointer==8)
 												begin
 													pointer<=6;
-													xpos <= 300;
+													xpos <= MID_X-105;
 												end
 											else
 												begin
 													pointer<=pointer+1;
-													xpos <= xpos + 150;
+													xpos <= xpos + 105;
 												end
 										end
 									else if(left)
@@ -122,22 +125,22 @@ module block_controller(
 											if (pointer==0)
 												begin
 													pointer<=2;
-													xpos<=600;
+													xpos<=MID_X+105;
 												end
 											else if (pointer==3)
 												begin
 													pointer<=5;
-													xpos<=600;
+													xpos<=MID_X+105;
 												end
 											else if (pointer==6)
 												begin
 													pointer<=8;
-													xpos<=600;
+													xpos<=MID_X+105;
 												end
 											else
 												begin
 													pointer<=pointer-1;
-													xpos<=xpos - 150;
+													xpos<=xpos - 105;
 												end
 										end
 									else if(up)
@@ -146,22 +149,22 @@ module block_controller(
 											if (pointer==0)
 												begin
 													pointer<=6;
-													ypos<=100;
+													ypos<=MID_Y-105;
 												end
 											else if (pointer==1)
 												begin
 													pointer<=7;
-													ypos<=100;
+													ypos<=MID_Y-105;
 												end
 											else if (pointer==2)
 												begin
 													pointer<=8;
-													ypos<=100;
+													ypos<=MID_Y-105;
 												end
 											else
 												begin
 													pointer<=pointer-3;
-													ypos<=ypos+150;
+													ypos<=ypos+105;
 												end
 										end
 									else if(down)
@@ -170,22 +173,22 @@ module block_controller(
 											if (pointer==6)
 												begin
 													pointer<=0;
-													ypos<=400;
+													ypos<=MID_Y+105;
 												end
 											else if (pointer==7)
 												begin
 													pointer<=1;
-													ypos<=400;
+													ypos<=MID_Y+105;
 												end
 											else if (pointer==8)
 												begin
 													pointer<=2;
-													ypos<=400;
+													ypos<=MID_Y+105;
 												end
 											else
 												begin
 													pointer<=pointer+3;
-													ypos<=ypos-150;
+													ypos<=ypos-105;
 												end
 										end
 									if(DRAW)
@@ -332,20 +335,18 @@ module block_controller(
 	   end
 
 	
-	assign block_fill_1 = (hCount>=(MID_X-25) &&hCount<=(MID_X+25)&&vCount>=(MID_Y-25)&vCount<=(MID_Y+25));
-	assign block_fill_2 = (hCount>=(MID_X-80) &&hCount<=(MID_X-30)&&vCount>=(MID_Y-25)&vCount<=(MID_Y+25));
-	assign block_fill_3 = (hCount>=(MID_X+30) &&hCount<=(MID_X+80)&&vCount>=(MID_Y-25)&vCount<=(MID_Y+25));
-	assign block_fill_4 = (hCount>=(MID_X-25) &&hCount<=(MID_X+25)&&vCount>=(MID_Y+30)&vCount<=(MID_Y+80));
-	assign block_fill_5 = (hCount>=(MID_X-80) &&hCount<=(MID_X-30)&&vCount>=(MID_Y+30)&vCount<=(MID_Y+80));
-	assign block_fill_6 = (hCount>=(MID_X+30) &&hCount<=(MID_X+80)&&vCount>=(MID_Y+30)&vCount<=(MID_Y+80));
-	assign block_fill_7 = (hCount>=(MID_X-25) &&hCount<=(MID_X+25)&&vCount>=(MID_Y-80)&vCount<=(MID_Y-30));
-	assign block_fill_8 = (hCount>=(MID_X-80) &&hCount<=(MID_X-30)&&vCount>=(MID_Y-80)&vCount<=(MID_Y-30));
-	assign block_fill_9 = (hCount>=(MID_X+30) &&hCount<=(MID_X+80)&&vCount>=(MID_Y-80)&vCount<=(MID_Y-30));
+	assign block_fill_1 = (hCount>=(MID_X-50) &&hCount<=(MID_X+50)&&vCount>=(MID_Y-50)&vCount<=(MID_Y+50));
+	assign block_fill_2 = (hCount>=(MID_X-155) &&hCount<=(MID_X-55)&&vCount>=(MID_Y-50)&vCount<=(MID_Y+50));
+	assign block_fill_3 = (hCount>=(MID_X+55) &&hCount<=(MID_X+155)&&vCount>=(MID_Y-50)&vCount<=(MID_Y+50));
+	assign block_fill_4 = (hCount>=(MID_X-50) &&hCount<=(MID_X+50)&&vCount>=(MID_Y+55)&vCount<=(MID_Y+155));
+	assign block_fill_5 = (hCount>=(MID_X-155) &&hCount<=(MID_X-55)&&vCount>=(MID_Y+55)&vCount<=(MID_Y+155));
+	assign block_fill_6 = (hCount>=(MID_X+55) &&hCount<=(MID_X+155)&&vCount>=(MID_Y+55)&vCount<=(MID_Y+155));
+	assign block_fill_7 = (hCount>=(MID_X-50) &&hCount<=(MID_X+50)&&vCount>=(MID_Y-155)&vCount<=(MID_Y-55));
+	assign block_fill_8 = (hCount>=(MID_X-155) &&hCount<=(MID_X-55)&&vCount>=(MID_Y-155)&vCount<=(MID_Y-55));
+	assign block_fill_9 = (hCount>=(MID_X+55) &&hCount<=(MID_X+155)&&vCount>=(MID_Y-155)&vCount<=(MID_Y-55));
 	
- 
-
-		//the +-5 for the positions give the dimension of the block (i.e. it will be 10x10 pixels)
-	assign block_fill1=(vCount>=(ypos-50) && vCount<=(ypos+50) && hCount>=(xpos-50) && hCount<=(xpos+50))&&~(vCount>=(ypos-30) && vCount<=(ypos+30) && hCount>=(xpos-30) && hCount<=(xpos+30));
+	//the +-5 for the positions give the dimension of the block (i.e. it will be 10x10 pixels)
+	assign block_move =(vCount>=(ypos-50) && vCount<=(ypos+50) && hCount>=(xpos-50) && hCount<=(xpos+50));
 	assign WIN1=fstore[0]*fstore[1]*fstore[2]+fstore[3]*fstore[4]*fstore[5]+fstore[6]*fstore[7]*fstore[8]+
 				fstore[0]*fstore[3]*fstore[6]+fstore[1]*fstore[4]*fstore[7]+fstore[2]*fstore[5]*fstore[8]+
 				fstore[0]*fstore[4]*fstore[8]+fstore[2]*fstore[4]*fstore[6];
