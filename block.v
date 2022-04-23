@@ -394,7 +394,7 @@ module block_controller(
 				);
 	*/
 	
-	assign player1_0 =((vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X-105))**2<=(30**2) && (vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X-105))**2>=(20**2) && fstore[0]);	
+	assign player2_0 =((vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X-105))**2<=(30**2) && (vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X-105))**2>=(20**2) && fstore[0]);	
 	assign player2_1 =((vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X-000))**2<=(30**2) && (vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X-000))**2>=(20**2) && sstore[1]);
 	assign player2_2 =((vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X+105))**2<=(30**2) && (vCount-(CENTER_Y+105))**2 +(hCount-(CENTER_X+105))**2>=(20**2) && sstore[2]);				
 	assign player2_3 =((vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X-105))**2<=(30**2) && (vCount-(CENTER_Y+000))**2 +(hCount-(CENTER_X-105))**2>=(20**2) && sstore[3]);
