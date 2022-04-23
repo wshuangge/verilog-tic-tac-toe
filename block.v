@@ -30,7 +30,6 @@ module block_controller(
 	    QDRAW         = 7'b1000000,
 	    UNK           = 7'bXXXXXXX;
 
-	wire block_fill_1, block_fill_2, block_fill_3, block_fill_4, block_fill_5, block_fill_6, block_fill_7, block_fill_8, block_fill_9,block_move;
 
 	parameter RED        = 12'b1111_0000_0000;
 	parameter BLACK      = 12'b0000_0000_0000;
