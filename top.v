@@ -28,7 +28,6 @@ module vga_top(
 	input BtnR,
 	input BtnL,
 	input BtnD,
-	input Sw0,
 	//VGA signal
 	output hSync, vSync,
 	output [3:0] vgaR, vgaG, vgaB,
@@ -37,13 +36,14 @@ module vga_top(
 	output An0, An1, An2, An3, An4, An5, An6, An7,
 	output Ca, Cb, Cc, Cd, Ce, Cf, Cg, Dp,
 	
-	output MemOE, MemWR, RamCS, QuadSpiFlashCS
+	output MemOE, MemWR, RamCS, QuadSpiFlashCS,
+	Sw0
 	);
+
+	input Sw0;
 	wire Reset;
 	assign Reset=BtnC;
 
-	wire player1;
-	assign player1 = Sw0;
 	wire bright;
 	wire[9:0] hc, vc;
 	wire[15:0] score;
@@ -69,7 +69,7 @@ module vga_top(
 	wire [11:0] background;
 	wire q_Init, q_Wait1press, q_Wait1release, q_Wait2press, q_Wait2release, q_Win, q_Draw;
 	display_controller dc(.clk(ClkPort), .hSync(hSync), .vSync(vSync), .bright(bright), .hCount(hc), .vCount(vc));
-	block_controller sc(.clk(move_clk), .bright(bright), .rst(BtnC), .up(BtnU), .down(BtnD),.left(BtnL),.right(BtnR),.hCount(hc), .vCount(vc), .rgb(rgb), .background(background), .Player1(player1),
+	block_controller sc(.clk(move_clk), .bright(bright), .rst(BtnC), .up(BtnU), .down(BtnD),.left(BtnL),.right(BtnR),.hCount(hc), .vCount(vc), .rgb(rgb), .background(background), .Player1(Sw0),
 	   .q_Init(q_Init), .q_Wait1press(q_Wait1press), .q_Wait1release(q_Wait1release), .q_Wait2press(q_Wait2press), .q_Wait2release(q_Wait2release), .q_Win(q_Win), .q_Draw(q_Draw));
 	
 
