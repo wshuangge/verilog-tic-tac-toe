@@ -66,9 +66,10 @@ module vga_top(
 	assign move_clk=DIV_CLK[19]; //slower clock to drive the movement of objects on the vga screen
 	wire [11:0] background;
 	wire q_Init, q_Wait1press, q_Wait1release, q_Wait2press, q_Wait2release, q_Win, q_Draw;
+	wire [1:0] temp;
 	display_controller dc(.clk(ClkPort), .hSync(hSync), .vSync(vSync), .bright(bright), .hCount(hc), .vCount(vc));
 	block_controller sc(.clk(move_clk), .bright(bright), .rst(BtnC), .up(BtnU), .down(BtnD),.left(BtnL),.right(BtnR),.hCount(hc), .vCount(vc), .rgb(rgb), .background(background), .Player1(Sw0),
-	   .q_Init(q_Init), .q_Wait1press(q_Wait1press), .q_Wait1release(q_Wait1release), .q_Wait2press(q_Wait2press), .q_Wait2release(q_Wait2release), .q_Win(q_Win), .q_Draw(q_Draw));
+	   .q_Init(q_Init), .q_Wait1press(q_Wait1press), .q_Wait1release(q_Wait1release), .q_Wait2press(q_Wait2press), .q_Wait2release(q_Wait2release), .q_Win(q_Win), .q_Draw(q_Draw), .temp(temp));
 	
 
 
@@ -84,11 +85,12 @@ module vga_top(
 // SSD (Seven Segment Display)
 	// reg [3:0]	SSD;
 	// wire [3:0]	SSD3, SSD2, SSD1, SSD0;
-	wire [7:0] state;
+	wire [6:0] state;
 	assign {q_Draw, q_Win, q_Wait2release, q_Wait2press, q_Wait1release, q_Wait1press, q_Init} = state;
+	
 	//SSDs display 
 	//to show how we can interface our "game" module with the SSD's, we output the 12-bit rgb background value to the SSD's
-	assign SSD3 = 4'b1100;
+	assign SSD3 = {2'b00, temp};
 	assign SSD2 = background[11:8];
 	assign SSD1 = {1'b0, state[6:4]};
 	assign SSD0 = state[3:0];
@@ -138,22 +140,22 @@ module vga_top(
 	begin : HEX_TO_SSD
 		case (SSD) // in this solution file the dot points are made to glow by making Dp = 0
 		    //                                                                abcdefg,Dp
-			4'b0000: SSD_CATHODES = 8'b00000010; // 0
-			4'b0001: SSD_CATHODES = 8'b10011110; // 1
-			4'b0010: SSD_CATHODES = 8'b00100100; // 2
-			4'b0011: SSD_CATHODES = 8'b00001100; // 3
-			4'b0100: SSD_CATHODES = 8'b10011000; // 4
-			4'b0101: SSD_CATHODES = 8'b01001000; // 5
-			4'b0110: SSD_CATHODES = 8'b01000000; // 6
-			4'b0111: SSD_CATHODES = 8'b00011110; // 7
-			4'b1000: SSD_CATHODES = 8'b00000000; // 8
-			4'b1001: SSD_CATHODES = 8'b00001000; // 9
-			4'b1010: SSD_CATHODES = 8'b00010000; // A
-			4'b1011: SSD_CATHODES = 8'b11000000; // B
-			4'b1100: SSD_CATHODES = 8'b01100010; // C
-			4'b1101: SSD_CATHODES = 8'b10000100; // D
-			4'b1110: SSD_CATHODES = 8'b01100000; // E
-			4'b1111: SSD_CATHODES = 8'b01110000; // F    
+			4'b0000: SSD_CATHODES = 8'b00000011; // 0
+			4'b0001: SSD_CATHODES = 8'b10011111; // 1
+			4'b0010: SSD_CATHODES = 8'b00100101; // 2
+			4'b0011: SSD_CATHODES = 8'b00001101; // 3
+			4'b0100: SSD_CATHODES = 8'b10011001; // 4
+			4'b0101: SSD_CATHODES = 8'b01001001; // 5
+			4'b0110: SSD_CATHODES = 8'b01000001; // 6
+			4'b0111: SSD_CATHODES = 8'b00011111; // 7
+			4'b1000: SSD_CATHODES = 8'b00000001; // 8
+			4'b1001: SSD_CATHODES = 8'b00001001; // 9
+			4'b1010: SSD_CATHODES = 8'b00010001; // A
+			4'b1011: SSD_CATHODES = 8'b11000001; // B
+			4'b1100: SSD_CATHODES = 8'b01100011; // C
+			4'b1101: SSD_CATHODES = 8'b10000101; // D
+			4'b1110: SSD_CATHODES = 8'b01100001; // E
+			4'b1111: SSD_CATHODES = 8'b01110001; // F    
 			default: SSD_CATHODES = 8'bXXXXXXXX; // default is not needed as we covered all cases
 		endcase
 	end	
