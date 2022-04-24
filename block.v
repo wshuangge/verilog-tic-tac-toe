@@ -9,7 +9,8 @@ module block_controller(
 	input Player1,
 	output reg [11:0] rgb,
 	output reg [11:0] background,
-	output q_Init, q_Wait1press, q_Wait1release, q_Wait2press, q_Wait2release, q_Win, q_Draw
+	output q_Init, q_Wait1press, q_Wait1release, q_Wait2press, q_Wait2release, q_Win, q_Draw,
+	output reg [1:0] temp
    );
 	reg [9:0] MID_X, MID_Y;
 	reg [3:0] pointer;
@@ -81,6 +82,7 @@ module block_controller(
 								MID_X<=463;
 								MID_Y<=275;
 								moves<=0;
+								temp<=0;
 								if(Player1==1)
 									begin
 										state<=QWAIT1RELEASE;
@@ -199,10 +201,12 @@ module block_controller(
 									if(DRAW)
 										begin
 											state<=QDRAW;
+											temp<=3;
 										end
 									else if(WIN1||WIN2)
 										begin
 											state<=QWIN;
+											temp<=1;
 										end
 									else
 										begin
@@ -322,10 +326,12 @@ module block_controller(
 									if(DRAW)
 										begin
 											state<=QDRAW;
+											temp<=3;
 										end
 									else if(WIN1||WIN2)
 										begin
 											state<=QWIN;
+											temp<=2;
 										end
 									else
 										begin
